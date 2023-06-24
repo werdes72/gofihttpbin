@@ -5,3 +5,7 @@ build:
 .PHONY: run
 run:
 	go run ./cmd/gofihttpbin/gofihttpbin.go
+
+.PHONY: test
+test:
+	go test -v ./...

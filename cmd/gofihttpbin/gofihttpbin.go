@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	app := gofihttpbin.NewApp()
+	app := gofihttpbin.NewApp("./web/static/")
 
 	log.Fatal(app.Listen(":8080"))
 }
