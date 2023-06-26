@@ -9,3 +9,7 @@ run:
 .PHONY: test
 test:
 	go test -v ./...
+
+.PHONY: unitcoverage
+unitcoverage:
+	go test -coverprofile=coverage.out ./... ; go tool cover -html=coverage.out
