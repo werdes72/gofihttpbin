@@ -1,19 +1,17 @@
 package gofihttpbin
 
 import (
-	"path"
-
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/favicon"
 )
 
 func NewApp(staticDir string) *fiber.App {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		AppName:               "gofihttpbin",
+		DisableStartupMessage: true,
+		EnablePrintRoutes:     true,
+	})
 
-	app.Use(favicon.New(favicon.Config{
-		File: path.Join(staticDir, "favicon.ico"),
-	}))
-
+	dynamicRoutes(app)
 	httpRoutes(app)
 	requestRoutes(app)
 
