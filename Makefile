@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	docker build -t werdes72/gofihttpbin:latest .
+	docker build -t gofihttpbin:latest .
 
 .PHONY: run
 run:
