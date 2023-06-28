@@ -37,7 +37,7 @@ var _ = Describe("HTTP routes", func() {
 			Expect(resJSON["args"]).To(HaveKeyWithValue("a", "b"))
 			Expect(resJSON["args"]).To(HaveKeyWithValue("c", "d"))
 			Expect(resJSON["data"]).To(Equal("Body"))
-			Expect(resJSON["url"]).To(ContainSubstring("http://example.com"))
+			Expect(resJSON["url"]).To(ContainSubstring("http://example.com" + path))
 			Expect(resJSON["origin"]).To(ContainSubstring("0.0.0.0"))
 		})
 	}

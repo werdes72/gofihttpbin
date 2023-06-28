@@ -1,8 +1,9 @@
 package gofihttpbin
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"mime/multipart"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func httpRoutes(app fiber.Router) {
@@ -50,7 +51,7 @@ func httpMapper(c *fiber.Ctx) map[string]interface{} {
 		"headers": c.GetReqHeaders(),
 		"json":    getRequestJson(c),
 		"origin":  c.IP(),
-		"url":     c.BaseURL(),
+		"url":     c.BaseURL() + c.Path(),
 	}
 }
 
