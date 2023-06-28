@@ -39,6 +39,15 @@ func dynamicRoutes(app fiber.Router) {
 		return c.SendStream(bytes.NewReader(blk))
 	})
 
+	app.All("/delay/:delay", func(c *fiber.Ctx) error {
+		delay, _ := c.ParamsInt("delay", 0)
+		if delay > 10 {
+			delay = 10
+		}
+		time.Sleep(time.Duration(delay) * time.Second)
+		return c.JSON(httpMapper(c))
+	})
+
 	app.Get("/uuid", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"uuid": uuid.NewString(),
