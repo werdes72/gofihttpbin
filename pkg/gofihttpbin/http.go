@@ -49,14 +49,15 @@ func httpMapper(c *fiber.Ctx) map[string]interface{} {
 		"files":   getAllFiles(form),
 		"form":    form,
 		"headers": c.GetReqHeaders(),
-		"json":    c.JSON(c.Body()),
+		"json":    getRequestJson(c),
 		"origin":  c.IP(),
 		"url":     c.BaseURL() + c.Path(),
 	}
 }
 
 func getRequestJson(c *fiber.Ctx) interface{} {
-	if c.GetRespHeader("Content-Type") == "application/json" {
+	header, exists := c.GetReqHeaders()["Content-Type"]
+	if exists && header == "application/json" {
 		return c.JSON(c.Body())
 	}
 	return nil
