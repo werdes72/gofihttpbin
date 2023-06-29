@@ -56,7 +56,8 @@ func httpMapper(c *fiber.Ctx) map[string]interface{} {
 }
 
 func getRequestJson(c *fiber.Ctx) interface{} {
-	if c.GetRespHeader("Content-Type") == "application/json" {
+	header, exists := c.GetReqHeaders()["Content-Type"]
+	if exists && header == "application/json" {
 		return c.JSON(c.Body())
 	}
 	return nil
