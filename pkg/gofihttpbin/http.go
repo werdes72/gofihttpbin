@@ -49,7 +49,7 @@ func httpMapper(c *fiber.Ctx) map[string]interface{} {
 		"files":   getAllFiles(form),
 		"form":    form,
 		"headers": c.GetReqHeaders(),
-		"json":    getRequestJson(c),
+		"json":    c.JSON(c.Body()),
 		"origin":  c.IP(),
 		"url":     c.BaseURL() + c.Path(),
 	}
