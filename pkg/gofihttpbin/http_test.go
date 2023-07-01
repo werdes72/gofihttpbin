@@ -25,7 +25,7 @@ var _ = Describe("HTTP routes", func() {
 	}
 
 	for path, method := range tests {
-		It(fmt.Sprintf("%s returns", path), func() {
+		It(fmt.Sprintf("%s returns 200", path), func() {
 			req := httptest.NewRequest(method, fmt.Sprintf("%s?a=b&c=d", path), strings.NewReader("Body"))
 
 			res, _ := app.Test(req)
