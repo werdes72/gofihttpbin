@@ -38,7 +38,7 @@ var _ = Describe("Dynamic routes", func() {
 		Expect(body).To(ContainSubstring("HTTPBIN is awesome"))
 	})
 
-	It("/base64/asd returns ", func() {
+	It("/base64/asd returns an error", func() {
 		req := httptest.NewRequest("GET", "/base64/asd", nil)
 
 		res, _ := app.Test(req)
@@ -47,6 +47,41 @@ var _ = Describe("Dynamic routes", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(res.StatusCode).To(Equal(fiber.StatusBadRequest))
 		Expect(body).To(ContainSubstring("Cannot decode given data"))
+	})
+
+	It("/bytes/0 returns 0 random bytes", func() {
+		req := httptest.NewRequest("GET", "/bytes/0", nil)
+
+		res, _ := app.Test(req)
+		body, err := io.ReadAll(res.Body)
+
+		Expect(err).NotTo(HaveOccurred())
+		Expect(res.StatusCode).To(Equal(fiber.StatusOK))
+		Expect(len(body)).To(Equal(0))
+	})
+
+	It("/bytes/16 returns 16 random bytes", func() {
+		req := httptest.NewRequest("GET", "/bytes/16", nil)
+
+		res, _ := app.Test(req)
+		body, err := io.ReadAll(res.Body)
+
+		Expect(err).NotTo(HaveOccurred())
+		Expect(res.StatusCode).To(Equal(fiber.StatusOK))
+		Expect(len(body)).To(Equal(16))
+	})
+
+	It("/delay/1 returns 200", func() {
+		req := httptest.NewRequest("GET", "/delay/1", nil)
+
+		res, _ := app.Test(req, -1)
+		var resJSON map[string]interface{}
+		err := json.NewDecoder(res.Body).Decode(&resJSON)
+
+		Expect(err).NotTo(HaveOccurred())
+		Expect(res.StatusCode).To(Equal(fiber.StatusOK))
+		Expect(resJSON["url"]).To(ContainSubstring("http://example.com/delay/1"))
+		Expect(resJSON["origin"]).To(ContainSubstring("0.0.0.0"))
 	})
 
 	It("/uuid returns uuid", func() {

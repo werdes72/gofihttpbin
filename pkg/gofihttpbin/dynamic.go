@@ -24,9 +24,6 @@ func dynamicRoutes(app fiber.Router) {
 		var r *rand.Rand
 		seed := int64(c.QueryInt("seed"))
 		n, _ := c.ParamsInt("n", 0)
-		if n == 0 {
-			return c.Status(fiber.StatusBadRequest).SendString("Cannot read number of bytes")
-		}
 
 		if seed == 0 {
 			r = rand.New(rand.NewSource(time.Now().UnixNano()))
