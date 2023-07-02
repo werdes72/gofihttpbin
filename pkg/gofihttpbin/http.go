@@ -35,9 +35,6 @@ func httpRoutes(app fiber.Router) {
 }
 
 func httpMapper(c *fiber.Ctx) map[string]interface{} {
-	//	body := c.Request().Body()
-	//	buffer := make([]byte, len(body))
-	//	copy(buffer, body)
 	body := c.Request().Body()
 
 	form, err := c.MultipartForm()
