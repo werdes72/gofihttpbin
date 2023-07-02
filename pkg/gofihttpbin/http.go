@@ -1,6 +1,7 @@
 package gofihttpbin
 
 import (
+	"encoding/json"
 	"mime/multipart"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,7 +17,7 @@ func httpRoutes(app fiber.Router) {
 			"args":    c.Queries(),
 			"headers": c.GetReqHeaders(),
 			"origin":  c.IP(),
-			"url":     c.BaseURL(),
+			"url":     c.BaseURL() + c.Path(),
 		})
 	})
 
@@ -34,9 +35,10 @@ func httpRoutes(app fiber.Router) {
 }
 
 func httpMapper(c *fiber.Ctx) map[string]interface{} {
+	//	body := c.Request().Body()
+	//	buffer := make([]byte, len(body))
+	//	copy(buffer, body)
 	body := c.Request().Body()
-	buffer := make([]byte, len(body))
-	copy(buffer, body)
 
 	form, err := c.MultipartForm()
 	if err != nil {
@@ -45,20 +47,24 @@ func httpMapper(c *fiber.Ctx) map[string]interface{} {
 
 	return fiber.Map{
 		"args":    c.Queries(),
-		"data":    string(buffer),
+		"data":    string(body),
 		"files":   getAllFiles(form),
 		"form":    form,
 		"headers": c.GetReqHeaders(),
-		"json":    getRequestJson(c),
+		"json":    getRequestJson(c, body),
 		"origin":  c.IP(),
 		"url":     c.BaseURL() + c.Path(),
 	}
 }
 
-func getRequestJson(c *fiber.Ctx) interface{} {
+func getRequestJson(c *fiber.Ctx, b []byte) interface{} {
 	header, exists := c.GetReqHeaders()["Content-Type"]
 	if exists && header == "application/json" {
-		return c.JSON(c.Body())
+		j := map[string]interface{}{}
+		err := json.Unmarshal(b, &j)
+		if err == nil {
+			return j
+		}
 	}
 	return nil
 }

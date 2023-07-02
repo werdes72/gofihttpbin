@@ -25,6 +25,8 @@ var _ = Describe("HTTP routes", func() {
 	}
 
 	for path, method := range tests {
+		path := path
+		method := method
 		It(fmt.Sprintf("%s returns 200", path), func() {
 			req := httptest.NewRequest(method, fmt.Sprintf("%s?a=b&c=d", path), strings.NewReader("Body"))
 
@@ -36,9 +38,26 @@ var _ = Describe("HTTP routes", func() {
 			Expect(res.StatusCode).To(Equal(fiber.StatusOK))
 			Expect(resJSON["args"]).To(HaveKeyWithValue("a", "b"))
 			Expect(resJSON["args"]).To(HaveKeyWithValue("c", "d"))
-			Expect(resJSON["data"]).To(Equal("Body"))
 			Expect(resJSON["url"]).To(ContainSubstring("http://example.com" + path))
 			Expect(resJSON["origin"]).To(ContainSubstring("0.0.0.0"))
+			if method != "GET" {
+				Expect(resJSON["data"]).To(Equal("Body"))
+			}
 		})
 	}
+
+	It("/delete return JSON body", func() {
+		req := httptest.NewRequest("DELETE", "/delete", strings.NewReader(`{"Key": "Val"}`))
+		req.Header.Add("Content-Type", "application/json")
+
+		res, _ := app.Test(req)
+		var resJSON map[string]interface{}
+		err := json.NewDecoder(res.Body).Decode(&resJSON)
+
+		Expect(err).NotTo(HaveOccurred())
+		Expect(res.StatusCode).To(Equal(fiber.StatusOK))
+		Expect(resJSON["json"]).To(HaveKeyWithValue("Key", "Val"))
+		Expect(resJSON["url"]).To(ContainSubstring("http://example.com/delete"))
+		Expect(resJSON["origin"]).To(ContainSubstring("0.0.0.0"))
+	})
 })
