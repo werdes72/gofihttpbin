@@ -71,16 +71,49 @@ var _ = Describe("Dynamic routes", func() {
 		Expect(len(body)).To(Equal(16))
 	})
 
-	It("/delay/1 returns 200", func() {
+	It("/bytes/16 with seed returns the same 16 random bytes", func() {
+		var data [][]byte
+
+		for i := 0; i < 2; i++ {
+			req := httptest.NewRequest("GET", "/bytes/16?seed=123456", nil)
+
+			res, _ := app.Test(req)
+			body, err := io.ReadAll(res.Body)
+			data = append(data, body)
+
+			Expect(err).NotTo(HaveOccurred())
+			Expect(res.StatusCode).To(Equal(fiber.StatusOK))
+		}
+
+		Expect(len(data)).To(Equal(2))
+		Expect(len(data[0])).To(Equal(16))
+		Expect(len(data[1])).To(Equal(16))
+		Expect(data[0]).To(Equal(data[1]))
+	})
+
+	It("/delay/1 returns 200 after 1s", func() {
 		req := httptest.NewRequest("GET", "/delay/1", nil)
 
-		res, _ := app.Test(req, -1)
+		res, _ := app.Test(req, 1500)
 		var resJSON map[string]interface{}
 		err := json.NewDecoder(res.Body).Decode(&resJSON)
 
 		Expect(err).NotTo(HaveOccurred())
 		Expect(res.StatusCode).To(Equal(fiber.StatusOK))
 		Expect(resJSON["url"]).To(ContainSubstring("http://example.com/delay/1"))
+		Expect(resJSON["origin"]).To(ContainSubstring("0.0.0.0"))
+	})
+
+	It("/delay/15 returns 200 after 10s", func() {
+		req := httptest.NewRequest("GET", "/delay/15", nil)
+
+		res, _ := app.Test(req, 10500)
+		var resJSON map[string]interface{}
+		err := json.NewDecoder(res.Body).Decode(&resJSON)
+
+		Expect(err).NotTo(HaveOccurred())
+		Expect(res.StatusCode).To(Equal(fiber.StatusOK))
+		Expect(resJSON["url"]).To(ContainSubstring("http://example.com/delay/15"))
 		Expect(resJSON["origin"]).To(ContainSubstring("0.0.0.0"))
 	})
 
