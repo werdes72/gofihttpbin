@@ -17,6 +17,7 @@ func NewApp(staticDir string) *fiber.App {
 	dynamicRoutes(app)
 	httpRoutes(app)
 	requestRoutes(app)
+	statusRoutes(app)
 
 	return app
 }
