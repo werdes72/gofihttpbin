@@ -39,8 +39,16 @@ var _ = Describe("Request routes", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(res.StatusCode).To(Equal(fiber.StatusOK))
 		Expect(resJSON).To(HaveKey("headers"))
-		Expect(resJSON["headers"]).To(HaveKeyWithValue("Accept-Language", "en-us"))
-		Expect(resJSON["headers"]).To(HaveKeyWithValue("User-Agent", "test"))
+		Expect(resJSON["headers"]).To(HaveKey("Accept-Language"))
+
+		headers, _ := resJSON["headers"].(map[string]interface{})
+
+		al, _ := headers["Accept-Language"].([]interface{})
+		Expect(al).To(ContainElement("en-us"))
+
+		Expect(resJSON["headers"]).To(HaveKey("User-Agent"))
+		ua, _ := headers["User-Agent"].([]interface{})
+		Expect(ua).To(ContainElement("test"))
 	})
 
 	It("/user-agent returns request user agent", func() {
