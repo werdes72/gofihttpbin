@@ -3,6 +3,7 @@ package gofihttpbin
 import (
 	"encoding/json"
 	"mime/multipart"
+	"slices"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -56,7 +57,7 @@ func httpMapper(c *fiber.Ctx) map[string]interface{} {
 
 func getRequestJson(c *fiber.Ctx, b []byte) interface{} {
 	header, exists := c.GetReqHeaders()["Content-Type"]
-	if exists && header == "application/json" {
+	if exists && slices.Contains(header, "application/json") {
 		j := map[string]interface{}{}
 		err := json.Unmarshal(b, &j)
 		if err == nil {
