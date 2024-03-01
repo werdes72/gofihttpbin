@@ -1,6 +1,6 @@
 module github.com/werdes72/gofihttpbin
 
-go 1.20
+go 1.22
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.1
