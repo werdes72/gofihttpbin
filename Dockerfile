@@ -1,4 +1,4 @@
-from golang:1.21.3 AS build
+from golang:1.22.0-alpine3.19 AS build
 
 WORKDIR /go/src/gofihttpbin
 COPY . .
@@ -7,7 +7,7 @@ RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gofihttpbin ./cmd/gofihttpbin/gofihttpbin.go
 
 
-from alpine:3.18.2
+from alpine:3.19.1
 
 WORKDIR /gofihttpbin
 RUN mkdir -p ./web/static
