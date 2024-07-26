@@ -5,7 +5,7 @@ go 1.22
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/onsi/ginkgo/v2 v2.19.0
-	github.com/onsi/gomega v1.33.1
+	github.com/onsi/gomega v1.34.0
 )
 
 require github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
