@@ -15,3 +15,17 @@ updates:
     commit-message:
       prefix: "gomod"
       include: "scope"
+  - package-ecosystem: "docker"
+    directory: "/"
+    labels:
+      - "docker"
+      - "area/dependency"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "docker"
+      include: "scope"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
