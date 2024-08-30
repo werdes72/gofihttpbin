@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
-	github.com/onsi/ginkgo/v2 v2.20.1
+	github.com/onsi/ginkgo/v2 v2.20.2
 	github.com/onsi/gomega v1.34.2
 )
 
