@@ -7,7 +7,7 @@ toolchain go1.23.2
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/onsi/ginkgo/v2 v2.21.0
-	github.com/onsi/gomega v1.35.0
+	github.com/onsi/gomega v1.35.1
 )
 
 require github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
