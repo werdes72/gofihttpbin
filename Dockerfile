@@ -1,4 +1,4 @@
-from golang:1.23.3 AS build
+from golang:1.23.4 AS build
 
 WORKDIR /go/src/gofihttpbin
 COPY . .
