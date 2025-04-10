@@ -36,3 +36,6 @@ Running 10s test @ http://127.0.0.1/ip
 Requests/sec:    592.29
 Transfer/sec:    149.23KB
 ```
+
+# Options
+Enable request logging with an environment variable: `GOFI_LOGS=true`
