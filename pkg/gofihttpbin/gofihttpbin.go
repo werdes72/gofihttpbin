@@ -2,8 +2,10 @@ package gofihttpbin
 
 import (
 	"errors"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func NewApp(staticDir string) *fiber.App {
@@ -13,6 +15,10 @@ func NewApp(staticDir string) *fiber.App {
 		EnablePrintRoutes:     true,
 		ErrorHandler:          customErrorHandler,
 	})
+
+	if val, exists := os.LookupEnv("GOFI_LOGS"); exists && val == "true" {
+		app.Use(logger.New())
+	}
 
 	dynamicRoutes(app)
 	httpRoutes(app)
