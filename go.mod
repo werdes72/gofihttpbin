@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.9
-	github.com/onsi/ginkgo/v2 v2.26.0
+	github.com/onsi/ginkgo/v2 v2.27.1
 	github.com/onsi/gomega v1.38.2
 )
 
