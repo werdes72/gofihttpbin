@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func statusRoutes(app fiber.Router) {
-	app.All("/status/:code", func(c *fiber.Ctx) (err error) {
+	app.All("/status/:code", func(c fiber.Ctx) (err error) {
 		code := c.Params("code")
 		var status int
 

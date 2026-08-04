@@ -5,15 +5,15 @@ import (
 	"mime/multipart"
 	"slices"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 func httpRoutes(app fiber.Router) {
-	app.Delete("/delete", func(c *fiber.Ctx) error {
+	app.Delete("/delete", func(c fiber.Ctx) error {
 		return c.JSON(httpMapper(c))
 	})
 
-	app.Get("/get", func(c *fiber.Ctx) error {
+	app.Get("/get", func(c fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"args":    c.Queries(),
 			"headers": c.GetReqHeaders(),
@@ -22,20 +22,20 @@ func httpRoutes(app fiber.Router) {
 		})
 	})
 
-	app.Patch("/patch", func(c *fiber.Ctx) error {
+	app.Patch("/patch", func(c fiber.Ctx) error {
 		return c.JSON(httpMapper(c))
 	})
 
-	app.Post("/post", func(c *fiber.Ctx) error {
+	app.Post("/post", func(c fiber.Ctx) error {
 		return c.JSON(httpMapper(c))
 	})
 
-	app.Put("/put", func(c *fiber.Ctx) error {
+	app.Put("/put", func(c fiber.Ctx) error {
 		return c.JSON(httpMapper(c))
 	})
 }
 
-func httpMapper(c *fiber.Ctx) map[string]interface{} {
+func httpMapper(c fiber.Ctx) map[string]interface{} {
 	body := c.Request().Body()
 
 	form, err := c.MultipartForm()
@@ -55,7 +55,7 @@ func httpMapper(c *fiber.Ctx) map[string]interface{} {
 	}
 }
 
-func getRequestJson(c *fiber.Ctx, b []byte) interface{} {
+func getRequestJson(c fiber.Ctx, b []byte) interface{} {
 	header, exists := c.GetReqHeaders()["Content-Type"]
 	if exists && slices.Contains(header, "application/json") {
 		j := map[string]interface{}{}
