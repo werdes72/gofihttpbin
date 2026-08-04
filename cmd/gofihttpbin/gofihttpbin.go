@@ -9,5 +9,5 @@ import (
 func main() {
 	app := gofihttpbin.NewApp("./web/static/")
 
-	log.Fatal(app.Listen(":8080"))
+	log.Fatal(app.Listen(":8080", fiber.ListenConfig{DisableStartupMessage: true, EnablePrintRoutes: true}))
 }

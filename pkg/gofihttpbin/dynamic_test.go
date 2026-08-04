@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"io"
 	"net/http/httptest"
+	"time"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/google/uuid"
 	"github.com/werdes72/gofihttpbin/pkg/gofihttpbin"
 )
@@ -94,7 +95,7 @@ var _ = Describe("Dynamic routes", func() {
 	It("/delay/1 returns 200 after 1s", func() {
 		req := httptest.NewRequest("GET", "/delay/1", nil)
 
-		res, _ := app.Test(req, 1500)
+		res, _ := app.Test(req, fiber.TestConfig{Timeout: time.Duration(1500) * time.Millisecond})
 		var resJSON map[string]interface{}
 		err := json.NewDecoder(res.Body).Decode(&resJSON)
 
@@ -107,7 +108,7 @@ var _ = Describe("Dynamic routes", func() {
 	It("/delay/15 returns 200 after 10s", func() {
 		req := httptest.NewRequest("GET", "/delay/15", nil)
 
-		res, _ := app.Test(req, 10500)
+		res, _ := app.Test(req, fiber.TestConfig{Timeout: time.Duration(10500) * time.Millisecond})
 		var resJSON map[string]interface{}
 		err := json.NewDecoder(res.Body).Decode(&resJSON)
 
