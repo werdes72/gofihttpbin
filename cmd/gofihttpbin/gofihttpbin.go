@@ -4,6 +4,8 @@ import (
 	"log"
 
 	"github.com/werdes72/gofihttpbin/pkg/gofihttpbin"
+
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
